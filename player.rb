@@ -13,12 +13,13 @@ class Player
   end
 
   def play_turn(warrior)
+
+    print "Archer Attack? "
+    puts @archerAttack
+    @archerAttack = archerAttack?(warrior)
     print "Archer Attack? "
     puts @archerAttack
 
-    if(archerAttack?(warrior))
-      @archerAttack = true
-    end    
     #warrior is strong or is being attacked by an archer
     if(!needRest?(warrior) || @archerAttack)
       beAggressive(warrior)
@@ -44,8 +45,10 @@ class Player
   def archerAttack?(warrior)
     if( @lastMove == :rest && warrior.health < @lastHealth )
       true
-    else
+    elsif( @lastMove == :forward && warrior.health == @lastHealth)
       false
+    else
+      @archerAttack
     end
   end  
 
