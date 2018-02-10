@@ -4,16 +4,21 @@ class Player
   :attack
   :forward
   :rest
-  
+  ARCHER_DAMAGE = -3  
+
   def initialize()
      @minHealth = 20
      @lastMove = 'nothing'
      @lastHealth = 0
+     @lastHealthDelta = 0
      @archerAttack = false
   end
 
   def play_turn(warrior)
 
+    puts "last move " + @lastMove.to_s
+    @lastHealthDelta = warrior.health - @lastHealth
+    puts "last health delta " +  @lastHealthDelta.to_s
     print "Archer Attack? "
     puts @archerAttack
     @archerAttack = archerAttack?(warrior)
@@ -43,14 +48,14 @@ class Player
   end
 
   def archerAttack?(warrior)
-    if( @lastMove == :rest && warrior.health < @lastHealth )
+    if(@lastMove == :forward && @lastHealthDelta == ARCHER_DAMAGE)
       true
-    elsif( @lastMove == :forward && warrior.health == @lastHealth)
+    elsif(@lastMove == :forward && warrior.health == @lastHealth)
       false
-    else
+     else
       @archerAttack
     end
-  end  
+  end
 
   def beAggressive(warrior)
       #Walk if no one is in from of her
